@@ -1,0 +1,32 @@
+{{#if sectionText}}
+<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+    <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+        <span class="block">{{sectionText.[0]}}</span>
+        <span class="block text-yellow-500">{{sectionText.[1]}}</span>
+    </h2>
+    <div class="mt-8 lex lg:mt-0 lg:flex-shrink-0">
+        {{#if forDownload}}
+        <div class="ml-3 inline-flex rounded-md shadow">
+            <input type="button" value="Download"
+                class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600"
+                onclick={{download}}>
+        </div>
+        {{else }}
+        <form action="upload" method="POST" enctype="multipart/form-data">
+            <div class="inline-flex rounded-md shadow">
+                <label
+                    class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600">
+                    <input type="file" name="wordfile" value="" class="hidden"> Choose File
+                </label>
+            </div>
+            <div class="inline-flex rounded-md shadow">
+            </div>
+            <div class="ml-3 inline-flex rounded-md shadow">
+                <input type="submit" value="Convert"
+                    class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-yellow-500 bg-white hover:bg-yellow-50">
+            </div>
+        </form>
+        {{/if}}
+    </div>
+</div>
+{{/if}}

@@ -6,7 +6,7 @@ const hbs = require("hbs");
 const fileConverter = require("./converter");
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 //Converted file counter
 let counter = fs.readdir(
@@ -128,4 +128,4 @@ app.post("/upload", (req, res) => {
 });
 
 //Starting server
-app.listen(port, () => console.log(`Server is running on the port ${port}`));
+app.listen(PORT, () => console.log(`Server is running on the port ${PORT}`));

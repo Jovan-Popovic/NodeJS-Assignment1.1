@@ -11,7 +11,7 @@ const port = 3000;
 //Converted file counter
 let counter = fs.readdir(
   "./downloads",
-  (err, files) => (counter = files.length)
+  (err, files) => (counter = files.length - 1)
 );
 
 // This class is used for creating istances of options for hbs components

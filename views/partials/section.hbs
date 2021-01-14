@@ -5,12 +5,11 @@
         <span class="block text-yellow-500">{{sectionText.[1]}}</span>
     </h2>
     <div class="mt-8 lex lg:mt-0 lg:flex-shrink-0">
-        {{#if forDownload}}
-        <div class="ml-3 inline-flex rounded-md shadow">
+        {{#if downloadPath}}
+        <a href={{downloadPath}} class="ml-3 inline-flex rounded-md shadow" download>
             <input type="button" value="Download"
-                class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600"
-                onclick={{download}}>
-        </div>
+                class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600">
+        </a>
         {{else }}
         <form action="upload" method="POST" enctype="multipart/form-data">
             <div class="inline-flex rounded-md shadow">

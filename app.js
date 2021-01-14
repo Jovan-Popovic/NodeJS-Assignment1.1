@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 //Converted file counter
 let counter = fs.readdir(
-  "./downloads",
+  "./public/downloads",
   (err, files) => (counter = files.length - 1)
 );
 
@@ -23,21 +23,20 @@ class hbsOptions {
     paragraph,
     sectionText,
     show,
-    forDownload
+    downloadPath
   ) {
     this.counter = counter;
     this.title = title;
     this.heading = heading;
     this.paragraph = paragraph;
     this.sectionText = sectionText;
-    forDownload;
     this.show = show || false;
-    this.forDownload = forDownload || false;
+    this.downloadPath = downloadPath || "";
   }
 }
 
 app.use(upload());
-app.use(express.static("./public"));
+app.use(express.static("public"));
 
 hbs.registerPartials(__dirname + "/views/partials");
 
@@ -55,14 +54,16 @@ app.get("/", (req, res) => {
 
 //Set upload route
 app.post("/upload", (req, res) => {
-  console.log(req.files || "Lol nope");
-
   if (req.files) {
     const file = req.files.wordfile;
     const name = file.name;
+    const filename = name
+      .split(".")
+      .slice(0, name.split(".").length - 1)
+      .join("."); //In case if filename have dots, this will always return filename propertly
     const type = file.mimetype;
     console.log(type);
-    const uploadpath = __dirname + "/uploads/" + name;
+    const uploadpath = __dirname + "/public/uploads/" + name;
     if (
       type ===
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
@@ -82,25 +83,17 @@ app.post("/upload", (req, res) => {
               counter,
               "success",
               "You did it, excellent work!",
-              "Conversion was successfull, you can now download you converted pdf file by pressing Download button down bellow.",
+              "Conversion was successfull, your word file is now converted to new pdf file, the only thing left is to download it.",
               ["The rest is simple!", "Press the download button and done"],
               true,
-              true,
+              "downloads/" + filename + ".pdf",
             ];
         const options = new hbsOptions(...values);
         res.render("upload.hbs", options);
         if (err) console.log("File Upload Failed", name, err);
         else {
           console.log("File Uploaded: ", name);
-          fileConverter(name, counter);
-          hbs.registerHelper(
-            "download",
-            () =>
-              res.download(
-                __dirname + "/downloads/" + name.split(".")[0] + ".pdf"
-              ),
-            (err) => console.log(err)
-          );
+          fileConverter(name, filename, counter);
         }
       });
     else {

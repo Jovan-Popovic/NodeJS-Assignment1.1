@@ -3,12 +3,12 @@ const fs = require("fs");
 
 const libre = require("libreoffice-convert");
 
-const fileConverter = (name, filename, counter) => {
-  const ext = ".pdf";
-  const enterPath = path.join(__dirname, `/public/uploads/${name}`);
+const fileConverter = (filename, ext, counter) => {
+  const pdf = ".pdf";
+  const enterPath = path.join(__dirname, `/public/uploads/${filename + ext}`);
   const outputPath = path.join(
     __dirname,
-    `/public/downloads/${filename + ext}`
+    `/public/downloads/${filename + pdf}`
   );
 
   const file = fs.readFileSync(enterPath);

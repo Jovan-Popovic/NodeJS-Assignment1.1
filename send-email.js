@@ -20,7 +20,7 @@ const sendEmail = (email, filename) => {
     text:
       "Dear user, than you for using this feature, enjoy your pdf file down bellow.",
     attachments: {
-      path: `downloads/${filename}.pdf`,
+      path: `./public/downloads/${filename}.pdf`,
     },
   };
   console.log(email, filename);
@@ -32,8 +32,8 @@ const sendEmail = (email, filename) => {
 };
 
 module.exports = sendEmail;
-
-/* const { SMTPClient } = require("emailjs");
+/*
+const { SMTPClient } = require("emailjs");
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -43,16 +43,24 @@ const sendEmail = () => {
   const client = new SMTPClient({
     host: "smtp.gmail.com",
     ssl: true,
-    user: process.env.ADDRESS,
-    password: process.env.PASSWORD,
+    user: "popovicjovan23@gmail.com",
+    password: "jupol2003",
   });
 
   client.send(
     {
-      from: process.env.ADDRESS,
+      from: "popovicjovan23@gmail.com",
       to: "jovan.popovics1a@gmail.com",
-      subject: "My Email-Js",
-      text: "i hope this works",
+      subject: "WordToPdf Converter",
+      text:
+        "Dear user, than you for using this feature, enjoy your pdf file down bellow.",
+      attachments: [
+        {
+          path: "./public/downloads/Article.pdf",
+          type: "application/pdf",
+          name: "Article.pdf",
+        },
+      ],
     },
     (err, message) => {
       console.log(err || message);
@@ -62,4 +70,4 @@ const sendEmail = () => {
 
 sendEmail();
 module.exports = sendEmail;
- */
+*/

@@ -4,7 +4,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 require("dotenv").config();
 
-const sendEmail = () => {
+const sendEmail = (email, filename) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -15,18 +15,22 @@ const sendEmail = () => {
 
   let mailOptions = {
     from: process.env.ADDRESS,
-    to: "jovan.popovics1a@gmail.com",
-    subject: "Sending Email using Node.js",
-    text: "That was NOT easy!",
+    to: email,
+    subject: "WordToPdf Converter",
+    text:
+      "Dear user, than you for using this feature, enjoy your pdf file down bellow.",
+    attachments: {
+      path: `downloads/${filename}.pdf`,
+    },
   };
-
+  console.log(email, filename);
   transporter.sendMail(mailOptions, (error, info) =>
     error
-      ? console.log("Lol nope: ", error)
-      : console.log("Email sent: " + info)
+      ? console.log("Sending failed: ", error)
+      : console.log("Email sent: ", info)
   );
 };
-sendEmail();
+
 module.exports = sendEmail;
 
 /* const { SMTPClient } = require("emailjs");

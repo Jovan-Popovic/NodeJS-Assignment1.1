@@ -3,7 +3,9 @@ const fs = require("fs");
 const express = require("express");
 const upload = require("express-fileupload");
 const hbs = require("hbs");
+
 const fileConverter = require("./converter");
+const sendEmail = require("./send-email");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -101,18 +103,30 @@ app.post("/upload", (req, res) => {
         counter,
         "be carefull",
         "Wrong file type selected!",
-        "File that you want to convert needs to have an extension of .doc or .docx in order for this to work, return to home page (by pressing app icon) and try again.",
+        "File that you want to convert needs to have an extension of .doc or .docx in order for this to work, return to home page (by pressing app logo) and try again.",
         [],
         false
       );
       res.render("upload.hbs", options);
     }
+
+    app.post("/send", (req, res) => {
+      const options = new hbsOptions(
+        counter,
+        "thank you",
+        "We really appreciate this!",
+        "File is successfully send to your gmail account. We really appretiate this and we are hoping that you liked our services. To convert new file, press the app logo and repeat the process."
+      );
+      res.render("send.hbs", options);
+      sendEmail(req.body.email, filename);
+      console.log(req.body.email);
+    });
   } else {
     const options = new hbsOptions(
       counter,
       "be carefull",
       "No file selected!",
-      "In order for this to work, you need to upload word file to get converted pdf file. Press app icon to go back to home page",
+      "In order for this to work, you need to upload word file to get converted pdf file. Press app logo to go back to home page.",
       [],
       false
     );

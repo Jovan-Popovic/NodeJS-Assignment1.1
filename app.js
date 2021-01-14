@@ -63,9 +63,14 @@ app.post("/upload", (req, res) => {
       .split(".")
       .slice(0, name.split(".").length - 1)
       .join("."); //In case if filename have dots, this will always return filename propertly
-    const ext = `.${name.split(".").pop()}`;
-    const uploadpath = `${__dirname}/public/uploads/${name}`;
-    if (ext === ".doc" || ext === ".docx")
+    const type = file.mimetype;
+    console.log(type);
+    const uploadpath = __dirname + "/public/uploads/" + name;
+    if (
+      type ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+      type === "application/msword"
+    )
       file.mv(uploadpath, (err) => {
         const values = err
           ? [
@@ -90,7 +95,7 @@ app.post("/upload", (req, res) => {
         if (err) console.log("File Upload Failed", name, err);
         else {
           console.log("File Uploaded: ", name);
-          fileConverter(filename, ext, counter);
+          fileConverter(name, filename, counter);
         }
       });
     else {
@@ -113,8 +118,8 @@ app.post("/upload", (req, res) => {
         "File is successfully send to your gmail account. We really appretiate this and we are hoping that you liked our services. To convert new file, press the app logo and repeat the process."
       );
       res.render("send.hbs", options);
-      /*       sendEmail(req.body.email, filename);
-       */ console.log(req.body.email);
+      sendEmail(req.body.email, filename);
+      console.log(req.body.email);
     });
   } else {
     const options = new hbsOptions(
